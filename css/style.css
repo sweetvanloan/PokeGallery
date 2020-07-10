@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-logo {
+    font-family: 'Press Start 2P', cursive;
+    margin-left: 5px;
+}
+
+main {
+    flex-grow: 1;
+}
