@@ -10,32 +10,48 @@ let pokemon, pokemonDetail;
 
 /*----- cached element references -----*/
 const $ulEl = $(".collection");
+const $imgEl = $("model-content img");
+const $name = $("#name");
+const $moves = $("#moves");
+const $abilities = $("#abilities");
+const $height = $("#height");
+const $modal = $(".modal");
 
 
 /*----- event listeners -----*/
 // $ulEl is the elements within the UL tags 
-$ulEl.on("click", handleClick);
+$ulEl.on("click", 'span', handleClick) 
+// listen for a click, only when span is clicked
 
 
 /*----- functions -----*/
+// initialize model
+$modal.modal();
+const instance = M.Modal.getInstance($modal);
+
+
 // clicking on the list we have in HTML 
 function handleClick(event) {
-    console.log(event)
+    getPokemon(event.target.dataset.url, true)
 }
 
 // make the data available as soon as the app loads
 getPokemon();
 
 // Function given the purpose of getting the pokemon data
-function getPokemon(){
+function getPokemon(detailURL, isDetail){
+    const url = detailURL || baseURL;
     // .then is a method called once the promise has been resolved - once that it finished .then will call the function
-    $.ajax(baseURL)
+    $.ajax(url)
     .then(function(data) {
-        console.log("data is", data)
-        // assigning pokemon to "results" from the array of info that is in the API
-        pokemon = data.results;
-        // programmatically generates or renders the HTML - this is made right after the assignment above, whereas before the code below to call render() we had to call it in the console to make the infromation appear
-        render();
+        if(!isDetail) {
+            // assigning pokemon to "results" from the array of info that is in the API
+            pokemon = data.results;
+            // programmatically generates or renders the HTML - this is made right after the assignment above, whereas before the code below to call render() we had to call it in the console to make the infromation appear
+            render();
+        } else {
+            pokemonDetail = data;
+        }
     }, function(error) {
         console.log("error is", error)
     });
